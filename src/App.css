@@ -1,0 +1,116 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.color-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(45px,121px));
+  grid-auto-rows: 1fr;
+  gap: 4px;
+  width: 85vw;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 0.3fr 0.7fr;
+  grid-template-rows: min-content auto auto auto min-content;
+  border: 1px solid lightgray;
+  column-gap: 6px;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+.id {
+  display: flex;
+  background: black;
+  color: white;
+  font-family: sans-serif;
+  font-weight: 700;
+  text-align: center;
+  padding: 3px 3px 0px 3px;
+  justify-self: center;
+  font-size: 25px;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  line-height: 1;
+  align-self: center;
+}
+
+.swatch {
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 3;
+  background: red;
+  border: 1px solid lightgray;
+  border-top: unset;
+  border-right: unset;
+  display: flex;
+  font-size: 0.5em;
+  color: white;
+  padding-left: 2px;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: start;
+  padding-left: 4px;
+  padding-right: 4px;
+
+  > span {
+    filter: drop-shadow(1px 1px 1px #111111);
+  }
+}
+
+.brand {
+  align-self: end;
+}
+
+.name {
+  grid-row: 4 / span 1;
+  grid-column: 1 / span 3;
+  align-self: center;
+  font-family: sans-serif;
+  font-size: 0.7em;
+  padding-top: 3px;
+}
+
+.finish {
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 800;
+  font-size: 0.5em;
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+
+.key {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  font-family: sans-serif;
+  font-weight: 800;
+  font-size: 1em;
+  justify-self: center;
+  align-self: center;
+  display: flex;
+  text-align: center;
+  padding-top: 4px;
+  margin: 0;
+  border: none;
+  line-height: 1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.brand-tamiya {
+  background: linear-gradient(to right, #e60012 50%, #0075c1 50%);
+}
