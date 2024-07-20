@@ -109,8 +109,17 @@
 .controls {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .brand-tamiya {
   background: linear-gradient(to right, #e60012 50%, #0075c1 50%);
+}
+
+.filter-group {
+  display: flex;
+}
+
+.filter-group > input {
+  margin-right: 12px;
 }

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { nearest, differenceHyab } from "culori";
 import "./App.css";
 import colors from "./assets/colors.json";
@@ -11,41 +11,52 @@ const finishMap = {
   PA: "PEARL",
 };
 
-const diff = nearest(colors, differenceHyab(), (a) => a.value);
-
 function App() {
+  const [showAcrylic, setShowAcrylic] = useState(true);
+  const [showLacquer, setShowLacquer] = useState(true);
+
   const [colorVal, setColorVal] = useState<string>("");
-  const [bestMatches, setBestMatches] = useState<(typeof colors)[0][]>(colors);
+
   const onColorChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
       const newColor = e.currentTarget.value;
       setColorVal(newColor);
-      if (newColor === "") {
-        setBestMatches(colors);
-      }
-      if (/#[A-Fa-f0-9]{6}/.test(newColor)) {
-        const closestMatches = diff(newColor, 10);
-        console.log(closestMatches);
-        setBestMatches(closestMatches);
-      }
     },
-    [setColorVal, setBestMatches]
+    [setColorVal]
   );
+
+  const matches = useMemo<(typeof colors)[0][]>(() => {
+    const filteredColors = colors.filter((c) => (
+      (typeof c.type === 'string' && c.type.toLowerCase() === 'acrylic' && showAcrylic) ||
+      ((typeof c.type !== 'string' || c.type.toLowerCase() !== 'acrylic') && showLacquer)
+    ));
+    if (/#[A-Fa-f0-9]{6}/.test(colorVal)) {
+      const diff = nearest(filteredColors, differenceHyab(), (a) => a.value);
+      return diff(colorVal, 10);
+    } else {
+      return filteredColors;
+    }
+  }, [colorVal, showAcrylic, showLacquer]);
 
   return (
     <div className="container">
       <div className="controls">
         <input value={colorVal} onChange={onColorChange}></input>
         <input type="color" value={colorVal} onChange={onColorChange}></input>
+      <div className="filter-group">
+        <label htmlFor="acrylic">Acrylic</label><input id="acrylic" type="checkbox" checked={showAcrylic} onChange={() => setShowAcrylic((v) => !v)}></input>
+        <label htmlFor="lacquer">Lacquer</label><input id="lacquer" type="checkbox" checked={showLacquer} onChange={() => setShowLacquer((v) => !v)}></input>
+      </div>
+
       </div>
       <div className="color-list">
-        {bestMatches.map((match) => (
+        {matches.map((match) => (
           <li key={`match-${match.key ?? "def"}-${match.id}`} className="wrapper">
             <div className="key">{match.key ?? ""}</div>
             <div className={`id${match.brand ? ` brand-${match.brand.toLowerCase()}` : ''}`}>{match.id}</div>
             <div className="finish">
-              {finishMap[match.finish as keyof typeof finishMap] ?? match.finish}
+              {finishMap[match.finish as keyof typeof finishMap] ?? match.finish ?? match.type}
             </div>
             <div className="name">{match.name}</div>
             <div className="swatch" style={{ background: match.value }}>
