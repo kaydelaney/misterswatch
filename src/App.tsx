@@ -3,6 +3,16 @@ import { nearest, differenceHyab } from "culori";
 import "./App.css";
 import colors from "./assets/colors.json";
 
+// interface Color {
+//   id: string | number;
+//   key?: string;
+//   value: string;
+//   name: string;
+//   brand?: string;
+//   type?: string | string[];
+//   finish?: string;
+// }
+
 const finishMap = {
   G: "GLOSS",
   SG: "SEMI-GLOSS",
